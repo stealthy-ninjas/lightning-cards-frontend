@@ -1,8 +1,10 @@
-import Sample from "./components/Sample";
+import Sample from './components/Sample';
 export default function App() {
-    return (
+  return (
     <>
-    <div><Sample/></div>
+      <div>
+        <Sample />
+      </div>
     </>
-    );
-    }
+  );
+}
