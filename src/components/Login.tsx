@@ -6,6 +6,14 @@ export default function Login({ setUserName }: LoginProps) {
   const handleSubmit = (e: any): void => {
     e.preventDefault();
     setUserName(e.target.name.value);
+    fetch('http://127.0.0.1:8080/users/create')
+      .then(async (res) => await res.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     navigate('/home');
   };
   return (

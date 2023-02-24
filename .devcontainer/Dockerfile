@@ -1,4 +1,4 @@
-FROM node:18
+FROM mcr.microsoft.com/devcontainers/javascript-node:0-18-bullseye
 WORKDIR /src/app
 
 COPY . .
