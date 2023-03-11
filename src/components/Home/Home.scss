@@ -1,0 +1,23 @@
+@import "./../Common/Styles/styles.scss";
+
+.home-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10rem;
+    .logo {
+     padding-bottom: 1rem;
+    }
+    .join-game {
+        padding: 1rem;
+        .join-button {
+            width: 10rem;
+        }
+    }
+    .create-game {
+        padding: 1rem;
+        .create-button {
+            width: 10rem;
+        }
+    }
+}
