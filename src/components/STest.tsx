@@ -16,7 +16,7 @@ export default function STest() {
   }, []);
 
   const handleClick = () => {
-    ws?.send('hi there');
+    ws?.send('byes');
   };
 
   return (
