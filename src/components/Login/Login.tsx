@@ -1,20 +1,23 @@
 import { useNavigate } from 'react-router-dom';
+import {useMutation} from 'react-query';
+import {logUserIn} from "./../utils/login-service.js"
 
 export default function Login({ setUserName }: LoginProps) {
   const navigate = useNavigate();
+  const userLoginMutation = useMutation({
+    mutationFn : () => {
+      return logUserIn().then((res) => {
+        console.log(res);
+        res.statusText === 'OK' && navigate('/home');
+      })
+    }
+  })
 
-  const handleSubmit = (e: any): void => {
+  const handleSubmit = async (e)=> {
     e.preventDefault();
     setUserName(e.target.name.value);
-    fetch('http://127.0.0.1:8080/players/create')
-      .then(async (res) => await res.json())
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    navigate('/home');
+    await userLoginMutation.mutateAsync()
+    
   };
   return (
     <div>
