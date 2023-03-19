@@ -1,23 +1,22 @@
 import { useNavigate } from 'react-router-dom';
-import {useMutation} from 'react-query';
-import {logUserIn} from "./../utils/login-service.js"
+import { useMutation } from 'react-query';
+import { logUserIn } from './../utils/login-service.js';
 
 export default function Login({ setUserName }: LoginProps) {
   const navigate = useNavigate();
   const userLoginMutation = useMutation({
-    mutationFn : () => {
-      return logUserIn().then((res) => {
+    mutationFn: async () => {
+      await logUserIn().then((res) => {
         console.log(res);
         res.statusText === 'OK' && navigate('/home');
-      })
+      });
     }
-  })
+  });
 
-  const handleSubmit = async (e)=> {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setUserName(e.target.name.value);
-    await userLoginMutation.mutateAsync()
-    
+    await userLoginMutation.mutateAsync();
   };
   return (
     <div>
