@@ -2,8 +2,10 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { baseURL } from '../../Constants';
 import './Home.scss';
+
 export default function Home({ userName, setRoomId }: HomeProps) {
   const navigate = useNavigate();
+  const joinRef = React.useRef<HTMLInputElement>(null);
 
   const handleCreate = () => {
     console.log('create');
@@ -18,6 +20,13 @@ export default function Home({ userName, setRoomId }: HomeProps) {
     navigate('/lobby');
   };
 
+  const handleJoin = () => {
+    if (joinRef.current === null) return;
+    console.log('join ', joinRef.current.value);
+    setRoomId(joinRef.current?.value);
+    navigate('/lobby');
+  };
+
   return (
     <>
       <div className="home-page">
@@ -26,9 +35,10 @@ export default function Home({ userName, setRoomId }: HomeProps) {
           <hr />
         </div>
         <div className="join-game">
-          <button className="btn join-button" role="button">
+          <button onClick={handleJoin} className="btn join-button" role="button">
             JOIN
           </button>
+          <input type="text" ref={joinRef} />
         </div>
         <div className="create-game">
           <button onClick={handleCreate} className="btn create-button" role="button">
