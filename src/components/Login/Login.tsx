@@ -7,7 +7,6 @@ export default function Login({ setUserName }: LoginProps) {
   const userLoginMutation = useMutation({
     mutationFn: async () => {
       await logUserIn().then((res) => {
-        console.log(res);
         res.statusText === 'OK' && navigate('/home');
       });
     }

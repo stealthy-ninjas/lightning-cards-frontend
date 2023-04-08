@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { baseURL } from '../../Constants';
 import './Home.scss';
 
@@ -26,6 +26,10 @@ export default function Home({ userName, setRoomId }: HomeProps) {
     setRoomId(joinRef.current?.value);
     navigate('/lobby');
   };
+
+  if (userName === '') {
+    return <Navigate to="/" />;
+  }
 
   return (
     <>
