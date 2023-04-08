@@ -16,6 +16,7 @@ export default function Lobby({ userName, roomId, setWs }) {
     if (roomId === '') return;
     const tempWs = new WebSocket('ws://127.0.0.1:8080/ws');
     tempWs?.addEventListener('message', (event) => {
+      // add handler
       console.log('server said: ', event.data, 't', typeof event.data);
     });
     tempWs.onopen = (ev) => {
