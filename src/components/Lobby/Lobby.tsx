@@ -1,7 +1,10 @@
 import { useEffect } from 'react';
 import './Lobby.scss';
+import { userInfoContextInitValues } from '../../contexts/ContextInitValuesProvider';
+import { UserInfoContext } from '../../App';
+import React, { useContext } from 'react';
 
-export default function Lobby({ userName, roomId, setWs }) {
+export default function Lobby({ setWs }) {
   const playerInfo = [
     // will be updated once the API is ready
     { id: 1, avatar: 'img1', playerName: 'John', status: 'wait' },
@@ -11,6 +14,10 @@ export default function Lobby({ userName, roomId, setWs }) {
     { id: 5, avatar: 'img5', playerName: 'George', status: 'wait' },
     { id: 6, avatar: 'img6', playerName: 'David', status: 'Ready' }
   ];
+  const userInfoContext = useContext<typeof userInfoContextInitValues>(UserInfoContext);
+  const userName = userInfoContext.userInfo.userName;
+  const roomId = userInfoContext.userInfo.roomId;
+
   useEffect(() => {
     console.log(roomId);
     if (roomId === '') return;

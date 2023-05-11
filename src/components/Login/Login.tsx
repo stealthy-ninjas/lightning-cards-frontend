@@ -1,12 +1,17 @@
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from 'react-query';
-import { logUserIn } from './../utils/login-service.js';
+import { logUserIn } from './../utils/login-service';
+import React, { useContext } from 'react';
+import { UserInfoContext } from '../../App';
+import { userInfoContextInitValues } from '../../contexts/ContextInitValuesProvider.js';
 
-export default function Login({ setUserName }: LoginProps) {
+export default function Login() {
   const navigate = useNavigate();
+  const userInfoContext = useContext<typeof userInfoContextInitValues>(UserInfoContext);
+
   const userLoginMutation = useMutation({
     mutationFn: async (userName) => {
-      await logUserIn(userName).then((res) => {
+      await logUserIn(userName).then((res: any) => {
         res.statusText === 'OK' && navigate('/home');
       });
     }
@@ -14,7 +19,11 @@ export default function Login({ setUserName }: LoginProps) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setUserName(e.target.name.value);
+
+    userInfoContext.setUserInfo((prevState) => {
+      return { ...prevState, userInfo: { ...prevState.userInfo, userName: e.target.name.value } };
+    });
+
     await userLoginMutation.mutateAsync(e.target.name.value);
   };
   return (
@@ -28,8 +37,4 @@ export default function Login({ setUserName }: LoginProps) {
       </form>
     </div>
   );
-}
-
-interface LoginProps {
-  setUserName: (userName: string) => void;
 }
