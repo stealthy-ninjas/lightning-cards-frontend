@@ -5,26 +5,31 @@ import Home from './components/Home/Home';
 import STest from './components/STest';
 import Lobby from './components/Lobby/Lobby';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import React from 'react';
+import {
+  UserInfoContextType,
+  userInfoContextInitValues
+} from './contexts/ContextInitValuesProvider';
+
+export const UserInfoContext = React.createContext(userInfoContextInitValues);
 
 export default function App() {
-  const [userName, setUserName] = useState('');
-  const [roomId, setRoomId] = useState('');
   const [ws, setWs] = useState(null);
   const queryClient = new QueryClient();
+  const [userInfoContext, setUserInfo] = useState<UserInfoContextType>(userInfoContextInitValues);
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Login setUserName={setUserName} />} />
-          <Route path="/home" element={<Home userName={userName} setRoomId={setRoomId} />} />
-          <Route path="/stest" element={<STest />} />
-          <Route
-            path="/lobby"
-            element={<Lobby userName={userName} roomId={roomId} setWs={setWs} />}
-          />
-        </Routes>
-      </BrowserRouter>
-    </QueryClientProvider>
+    <UserInfoContext.Provider value={{ ...userInfoContext, setUserInfo }}>
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Login />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/stest" element={<STest />} />
+            <Route path="/lobby" element={<Lobby setWs={setWs} />} />
+          </Routes>
+        </BrowserRouter>
+      </QueryClientProvider>
+    </UserInfoContext.Provider>
   );
 }
