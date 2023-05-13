@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import './Lobby.scss';
 import { userInfoContextInitValues } from '../../contexts/ContextInitValuesProvider';
 import { UserInfoContext } from '../../App';
@@ -17,6 +17,7 @@ export default function Lobby({ setWs }) {
   const userInfoContext = useContext<typeof userInfoContextInitValues>(UserInfoContext);
   const userName = userInfoContext.userInfo.userName;
   const roomId = userInfoContext.userInfo.roomId;
+  const [playersJoined, setPlayersJoined] = useState([]);
 
   useEffect(() => {
     console.log(roomId);
@@ -24,7 +25,7 @@ export default function Lobby({ setWs }) {
     const tempWs = new WebSocket('ws://127.0.0.1:8080/ws');
     tempWs?.addEventListener('message', (event) => {
       // add handler
-      console.log('server said: ', event.data, 't', typeof event.data);
+      console.log('server said: ', JSON.parse(event.data), 't', typeof event.data);
     });
     tempWs.onopen = (ev) => {
       tempWs.send(

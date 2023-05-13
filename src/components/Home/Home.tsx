@@ -32,15 +32,17 @@ export default function Home() {
 
   const handleJoin = () => {
     if (joinRef.current === null) return;
-    console.log('join ', joinRef.current.value);
-    userInfoContext.setUserInfo((prevState) => {
-      return {
-        ...prevState,
-        userInfo: { ...prevState.userInfo, roomId: joinRef.current?.value || '' }
-      };
-    });
-
-    navigate('/lobby');
+    if (joinRef.current.value !== '') {
+      userInfoContext.setUserInfo((prevState) => {
+        return {
+          ...prevState,
+          userInfo: { ...prevState.userInfo, roomId: joinRef.current?.value || '' }
+        };
+      });
+      navigate('/lobby');
+    } else {
+      alert('require Room Id to enter lobby');
+    }
   };
 
   if (userName === '') {
@@ -55,10 +57,10 @@ export default function Home() {
           <hr />
         </div>
         <div className="join-game">
+          <input type="text" ref={joinRef} placeholder="Room Id" />
           <button onClick={handleJoin} className="btn join-button" role="button">
             JOIN
           </button>
-          <input type="text" ref={joinRef} />
         </div>
         <div className="create-game">
           <button onClick={handleCreate} className="btn create-button" role="button">
